@@ -17,9 +17,9 @@ class MyApp extends StatelessWidget {
         return WeatherProvider();
       },
       child: MaterialApp(
-        // theme: ThemeData(
-        //   primarySwatch: Colors.blue,
-        // ),
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
         home: HomePage(),
       ),
     );
