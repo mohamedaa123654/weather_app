@@ -33,17 +33,33 @@ class SearchPage extends StatelessWidget {
 
             WeatherModel? weather =
                 await service.getWeather(cityName: cityName!);
-            print('xxxxxxxxxxxxx ${weather.maxTemp}');
+            // print('xxxxxxxxxxxxx ${weather.maxTemp}');
 
             Provider.of<WeatherProvider>(context, listen: false).weatherData =
                 weather;
-            //              Provider.of<WeatherProvider>(context,listen: false).cityName = cityName;
+            Provider.of<WeatherProvider>(context, listen: false).cityName =
+                cityName;
 
             Navigator.pop(context);
           },
           decoration: InputDecoration(
               label: Text('Search'),
-              suffixIcon: Icon(Icons.search),
+              suffixIcon: GestureDetector(
+                  onTap: () async {
+                    WeatherService service = WeatherService();
+
+                    WeatherModel? weather =
+                        await service.getWeather(cityName: cityName!);
+                    // print('xxxxxxxxxxxxx ${weather.maxTemp}');
+
+                    Provider.of<WeatherProvider>(context, listen: false)
+                        .weatherData = weather;
+                    Provider.of<WeatherProvider>(context, listen: false)
+                        .cityName = cityName;
+
+                    Navigator.pop(context);
+                  },
+                  child: Icon(Icons.search)),
               border: OutlineInputBorder(),
               hintText: 'Ecter a City'),
         ),

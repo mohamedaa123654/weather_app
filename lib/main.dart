@@ -5,23 +5,27 @@ import 'package:weather/pages/home.dart';
 import 'package:weather/provider/weather_provider.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(ChangeNotifierProvider(
+      create: (context) {
+        return WeatherProvider();
+      },
+      child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) {
-        return WeatherProvider();
-      },
-      child: MaterialApp(
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
-        home: HomePage(),
+    return MaterialApp(
+      theme: ThemeData(
+        primarySwatch: Provider.of<WeatherProvider>(context).weatherData == null
+            ? Colors.blue
+            : Provider.of<WeatherProvider>(context)
+                .weatherData
+                ?.getThemeColor(),
       ),
+      debugShowCheckedModeBanner: false,
+      home: HomePage(),
     );
   }
 }

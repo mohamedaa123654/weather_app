@@ -26,13 +26,18 @@ class WeatherService {
     return cityId;
   }
 
-  Future<WeatherModel> getWeather({required String cityName}) async {
-    int id = await getCityId(cityName: cityName);
-    Uri url = Uri.parse('$baseUrl/api/location/$id');
-    http.Response response = await http.get(url);
-    Map<String, dynamic> jsonData = jsonDecode(response.body);
-    Map<String, dynamic> data = jsonData['consolidated_weather'][0];
-    WeatherModel weatherData = WeatherModel.fromJson(data);
+  Future<WeatherModel?> getWeather({required String cityName}) async {
+    WeatherModel? weatherData;
+    try {
+      int id = await getCityId(cityName: cityName);
+      Uri url = Uri.parse('$baseUrl/api/location/$id');
+      http.Response response = await http.get(url);
+      Map<String, dynamic> jsonData = jsonDecode(response.body);
+      Map<String, dynamic> data = jsonData['consolidated_weather'][0];
+      weatherData = WeatherModel.fromJson(data);
+    } catch (e) {
+      print(e);
+    }
     return weatherData;
   }
 }
